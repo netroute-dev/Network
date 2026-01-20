@@ -1,262 +1,551 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Net Route Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Roboto', 'sans-serif'],
-              montserrat: ['Montserrat', 'sans-serif'],
-            },
-            colors: {
-              'primary': '#007bff',
-              'secondary': '#6c757d',
-              'accent': '#28a745',
-              'background-light': '#f8f9fa',
-              'background-dark': '#343a40',
-              'text-light': '#333',
-              'text-dark': '#f8f9fa',
-              'youtube-red': '#ff0000',
-              'facebook-blue': '#3b5998',
-            }
-          }
-        }
-      }
-    </script>
-    <script type="importmap">{
-  "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime"
-  }
-}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersecurity Career Launchpad | Free Training Guide</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Reusable cyber gradient like your hero */
+    .cyber-bg {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(45,212,191,0.18), transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(56,189,248,0.14), transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(168,85,247,0.12), transparent 45%),
+        linear-gradient(180deg, #020617 0%, #020b18 55%, #020617 100%);
+    }
+
+    /* Glass card */
+    .glass {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* Timeline connector */
+    .timeline-connector {
+      width: 2px;
+      background-color: rgba(255,255,255,0.14);
+      position: absolute;
+      top: 2.25rem;
+      bottom: -2rem;
+      left: 1.25rem;
+      z-index: 0;
+    }
+    .timeline-item:last-child .timeline-connector { display: none; }
+
+    /* Smooth focus */
+    :focus-visible {
+      outline: 3px solid rgba(20,184,166,.35);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    /* Subtle divider line */
+    .soft-divider {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+      height: 1px;
+    }
+  </style>
 </head>
-<body>
-    <div id="root"></div>
-    <script type="module">
-        import React, { useState, useEffect, useRef } from 'react';
-        import ReactDOM from 'react-dom/client';
 
-        // --- DATA CONSTANTS ---
-        const labWorkbookVideos = [
-            { id: 'yihreA9t1RU', title: 'CCNA: Router Mode & Commands Lab', thumbnailUrl: 'https://img.youtube.com/vi/yihreA9t1RU/hqdefault.jpg', videoUrl: 'https://youtu.be/yihreA9t1RU' },
-            { id: 'TeJEOaXZKjE', title: 'How to Implement Basic BGP and OSPF with MD5 Authentication | Lab Tutorial', thumbnailUrl: 'https://img.youtube.com/vi/TeJEOaXZKjE/hqdefault.jpg', videoUrl: 'https://youtu.be/TeJEOaXZKjE' },
-            { id: '9a74tNvAILc', title: 'MPLS Workbook Tutorial: Easy Lab Setup & Basic Connectivity Test (R1-R4)', thumbnailUrl: 'https://img.youtube.com/vi/9a74tNvAILc/hqdefault.jpg', videoUrl: 'https://youtu.be/9a74tNvAILc' },
-            { id: 'YyEjntvlhOw', title: 'How to Integrate MPLS VPN over GRE and DMVPN | EVE-NG PRO Demo', thumbnailUrl: 'https://img.youtube.com/vi/YyEjntvlhOw/hqdefault.jpg', videoUrl: 'https://youtu.be/YyEjntvlhOw' },
-            { id: 'TnR6DUkRnfI', title: 'Integrating MPLS VPN + AWS Direct Connect (BGP) - Net Route Academy', thumbnailUrl: 'https://img.youtube.com/vi/TnR6DUkRnfI/hqdefault.jpg', videoUrl: 'https://youtu.be/TnR6DUkRnfI' },
-            { id: '9vTRCGQm_Uo', title: 'CCIE Service Provider Practice Lab - Free Workbook', thumbnailUrl: 'https://img.youtube.com/vi/9vTRCGQm_Uo/hqdefault.jpg', videoUrl: 'https://youtu.be/9vTRCGQm_Uo' },
-            { id: 'adbJL6KIs3Y', title: 'How to Install EVE-NG Community - Net Route Academy', thumbnailUrl: 'https://img.youtube.com/vi/adbJL6KIs3Y/hqdefault.jpg', videoUrl: 'https://youtu.be/adbJL6KIs3Y' },
-            { id: 'eVR_qbEHUr8', title: 'MPLS VPN over DMVPN Workbook', thumbnailUrl: 'https://img.youtube.com/vi/eVR_qbEHUr8/hqdefault.jpg', videoUrl: 'https://youtu.be/eVR_qbEHUr8' },
-            { id: 'SJKqW-g-f-I', title: 'What is MPLS VPN Inter-AS Solutions (Workbook) - Net Route Academy', thumbnailUrl: 'https://img.youtube.com/vi/SJKqW-g-f-I/hqdefault.jpg', videoUrl: 'https://youtu.be/SJKqW-g-f-I' },
-            { id: 'xEQnWbrpkOI', title: 'Configure Etherchannel, VLAN and Trunk Port w/ EVE-NG', thumbnailUrl: 'https://img.youtube.com/vi/xEQnWbrpkOI/hqdefault.jpg', videoUrl: 'https://youtu.be/xEQnWbrpkOI' },
-        ];
+<body class="text-white cyber-bg selection:bg-teal-300/40 selection:text-white">
 
-        const routingSwitchingVideos = [
-            { id: 'KRu2JSmeV8Y', title: 'Easy Steps to Install RUIJIE ROUTER in EVE-NG', thumbnailUrl: 'https://img.youtube.com/vi/KRu2JSmeV8Y/hqdefault.jpg', videoUrl: 'https://youtu.be/KRu2JSmeV8Y' },
-            { id: 'oJB1xMbXMXA', title: 'CONFIGURE MSTP + VRRP RUIJIE SWITCH - (No commentary)', thumbnailUrl: 'https://img.youtube.com/vi/oJB1xMbXMXA/hqdefault.jpg', videoUrl: 'https://youtu.be/oJB1xMbXMXA' },
-            { id: 'y0rP6exJMCg', title: 'Quick and Easy Steps to Install RUIJIE Switch in EVE-NG', thumbnailUrl: 'https://img.youtube.com/vi/y0rP6exJMCg/hqdefault.jpg', videoUrl: 'https://youtu.be/y0rP6exJMCg' },
-            { id: 'DsWNoy5zDO8', title: 'Preview: Running Ruijie Switch using EVE-NG | Installation & Deployment Guide', thumbnailUrl: 'https://img.youtube.com/vi/DsWNoy5zDO8/hqdefault.jpg', videoUrl: 'https://youtu.be/DsWNoy5zDO8' },
-            { id: 'xEQnWbrpkOI', title: 'Configure Etherchannel, VLAN and Trunk Port w/ EVE-NG', thumbnailUrl: 'https://img.youtube.com/vi/xEQnWbrpkOI/hqdefault.jpg', videoUrl: 'https://youtu.be/xEQnWbrpkOI' },
-            { id: '1JDQX0QW5PI', title: 'How to Install Zabbix on Windows (VMware) | Step-by-Step Monitoring Setup Guide', thumbnailUrl: 'https://img.youtube.com/vi/1JDQX0QW5PI/hqdefault.jpg', videoUrl: 'https://youtu.be/1JDQX0QW5PI' },
-            { id: 'XY0iUzhj6M4', title: 'How to Create a Network Diagram (Step-by-Step Tutorial)', thumbnailUrl: 'https://img.youtube.com/vi/XY0iUzhj6M4/hqdefault.jpg', videoUrl: 'https://youtu.be/XY0iUzhj6M4' },
-            { id: 'BBqR82E9jQ0', title: 'Beginner\'s Guide to IT Infrastructure & Change Management', thumbnailUrl: 'https://img.youtube.com/vi/BBqR82E9jQ0/hqdefault.jpg', videoUrl: 'https://youtu.be/BBqR82E9jQ0' },
-            { id: '2tKpEte8qlg', title: 'Run Cisco Labs on EVE-NG: Install & Test Cisco IOL Images Easily', thumbnailUrl: 'https://img.youtube.com/vi/2tKpEte8qlg/hqdefault.jpg', videoUrl: 'https://youtu.be/2tKpEte8qlg' },
-            { id: 'GbAiDGQHf94', title: 'How to install FORTINET [Step-by-Step] Part 1', thumbnailUrl: 'https://img.youtube.com/vi/GbAiDGQHf94/hqdefault.jpg', videoUrl: 'https://youtu.be/GbAiDGQHf94' },
-            { id: 'uaRTt4GoSMQ', title: 'How to install FORTINET [Step-by-Step] Part 2', thumbnailUrl: 'https://img.youtube.com/vi/uaRTt4GoSMQ/hqdefault.jpg', videoUrl: 'https://youtu.be/uaRTt4GoSMQ' },
-            { id: 'HdcdWtJxo54', title: 'Media Converter Setup: Extend Ethernet Using Fiber Like a Pro', thumbnailUrl: 'https://img.youtube.com/vi/HdcdWtJxo54/hqdefault.jpg', videoUrl: 'https://youtu.be/HdcdWtJxo54' },
-        ];
-        
-        const networkingShorts = [
-            { id: '8yDtpQSj9cE', title: 'What is Access Points?', thumbnailUrl: 'https://img.youtube.com/vi/8yDtpQSj9cE/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/8yDtpQSj9cE' },
-            { id: 'VnogTsehd3U', title: 'What is Router?', thumbnailUrl: 'https://img.youtube.com/vi/VnogTsehd3U/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/VnogTsehd3U' },
-            { id: 'OKj6BWTDNAg', title: 'How to show configuration in a CISCO Router', thumbnailUrl: 'https://img.youtube.com/vi/OKj6BWTDNAg/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/OKj6BWTDNAg' },
-            { id: 'wbVQXmduBBM', title: 'How to configure an interface', thumbnailUrl: 'https://img.youtube.com/vi/wbVQXmduBBM/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/wbVQXmduBBM' },
-            { id: 'UChqx_bm29E', title: 'How to show interface status', thumbnailUrl: 'https://img.youtube.com/vi/UChqx_bm29E/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/UChqx_bm29E' },
-            { id: 'zlz-U6resf4', title: 'How to use show CDP neighbor', thumbnailUrl: 'https://img.youtube.com/vi/zlz-U6resf4/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/zlz-U6resf4' },
-            { id: 'YhZhgsBBCD0', title: 'Show IP Route OSPF', thumbnailUrl: 'https://img.youtube.com/vi/YhZhgsBBCD0/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/YhZhgsBBCD0' },
-            { id: 'QXobWaWI_eM', title: 'Show IP OSPF Database', thumbnailUrl: 'https://img.youtube.com/vi/QXobWaWI_eM/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/QXobWaWI_eM' },
-            { id: 'ru9QRYK6HPc', title: 'Show IP OSPF Neighbor', thumbnailUrl: 'https://img.youtube.com/vi/ru9QRYK6HPc/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/ru9QRYK6HPc' },
-            { id: 'F4NAD2CDQk4', title: 'Show IP OSPF Interface Brief', thumbnailUrl: 'https://img.youtube.com/vi/F4NAD2CDQk4/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/F4NAD2CDQk4' },
-            { id: 'MJdL5kmoHBo', title: 'Quiz Time: OSI Layer', thumbnailUrl: 'https://img.youtube.com/vi/MJdL5kmoHBo/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/MJdL5kmoHBo' },
-            { id: 'QjLMrqbyRlk', title: 'Quiz Time: OSI Layer', thumbnailUrl: 'https://img.youtube.com/vi/QjLMrqbyRlk/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/QjLMrqbyRlk' },
-            { id: 'QmJpSPv6kNo', title: 'Quiz Time: Cyber Security', thumbnailUrl: 'https://img.youtube.com/vi/QmJpSPv6kNo/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/QmJpSPv6kNo' },
-            { id: '7BsiP65S9Eo', title: 'Quiz Time: Network Fundamentals', thumbnailUrl: 'https://img.youtube.com/vi/7BsiP65S9Eo/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/7BsiP65S9Eo' },
-            { id: 'iSlPMQm6MEQ', title: 'Quiz Time: Network Design', thumbnailUrl: 'https://img.youtube.com/vi/iSlPMQm6MEQ/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/iSlPMQm6MEQ' },
-            { id: 'VlmhRtEWm6U', title: 'Quiz Time: Wireless Technologies', thumbnailUrl: 'https://img.youtube.com/vi/VlmhRtEWm6U/hqdefault.jpg', videoUrl: 'https://youtube.com/shorts/VlmhRtEWm6U' },
-        ];
-        
-        const TABS = [
-            { id: 'Lab-Workbook', label: 'Networking Lab Workbook' },
-            { id: 'Routing-Switching', label: 'Routing & Switching' },
-            { id: 'YouTube-Shorts', label: 'YouTube Shorts' },
-            { id: 'Community-Contact', label: 'Community & Contact' },
-        ];
+  <nav class="bg-slate-950/40 backdrop-blur sticky top-0 z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="Assets/Net Route Academy logo.png" alt="Net Route Academy Logo" class="w-9 h-9 rounded-xl border border-white/10 object-contain bg-white/5">
+          <span class="text-lg sm:text-xl font-extrabold tracking-tight">
+            NetRoute<span class="text-teal-400">Academy</span>
+          </span>
+        </div>
 
-        // --- COMPONENTS ---
-        const Header = () => (
-            React.createElement("header", { className: "bg-primary text-text-dark text-center py-6 shadow-md" },
-                React.createElement("h1", { className: "text-4xl font-bold font-montserrat" }, "Net Route Academy"),
-                React.createElement("p", { className: "mt-2 text-lg" }, "Your Go-To Hub for Networking Labs and Tutorials")
-            )
-        );
+        <div class="hidden md:flex items-center gap-7">
+          <button onclick="scrollToSection('top-picks')" class="text-white/70 hover:text-teal-300 font-medium transition">Top Picks</button>
+          <button onclick="scrollToSection('roadmap')" class="text-white/70 hover:text-teal-300 font-medium transition">Roadmap</button>
+          <button onclick="scrollToSection('library')" class="text-white/70 hover:text-teal-300 font-medium transition">Library</button>
+          <button onclick="scrollToSection('youtube-section')" class="text-white/70 hover:text-red-400 font-medium transition">YouTube</button>
+        </div>
 
-        const Tabs = ({ tabs, activeTab, setActiveTab }) => (
-            React.createElement("nav", { className: "bg-background-dark shadow-md sticky top-0 z-10" },
-                React.createElement("div", { className: "container mx-auto flex justify-center flex-wrap" },
-                    tabs.map((tab) => (
-                        React.createElement("button", {
-                            key: tab.id,
-                            onClick: () => setActiveTab(tab.id),
-                            className: `py-3 px-5 m-1 text-base rounded-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50
-                                ${activeTab === tab.id
-                                    ? 'bg-primary text-text-dark font-bold'
-                                    : 'bg-transparent text-text-dark hover:bg-white/20'
-                                }`
-                        }, tab.label)
-                    ))
-                )
-            )
-        );
+        <button id="mobileMenuBtn"
+          class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 hover:bg-white/10 transition"
+          aria-label="Open navigation menu">
+          ☰
+        </button>
+      </div>
 
-        const VideoCard = ({ title, thumbnailUrl, videoUrl, buttonText }) => (
-            React.createElement("div", { className: "border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transform transition-all duration-300 flex flex-col bg-gray-50" },
-                React.createElement("a", { href: videoUrl, target: "_blank", rel: "noopener noreferrer"}, React.createElement("img", { src: thumbnailUrl, alt: title, className: "w-full h-48 object-cover" })),
-                React.createElement("div", { className: "p-4 flex flex-col flex-grow" },
-                    React.createElement("h3", { className: "text-lg font-bold text-text-light mb-4 h-14" }, title),
-                    React.createElement("a", {
-                        href: videoUrl,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        className: "mt-auto inline-block bg-accent text-white text-center font-bold py-2 px-4 rounded-md hover:bg-green-700 transition-colors"
-                    }, buttonText)
-                )
-            )
-        );
+      <div id="mobileMenu" class="md:hidden hidden pb-4">
+        <div class="grid gap-2">
+          <button onclick="scrollToSection('top-picks'); toggleMobileMenu(false)"
+            class="text-left px-3 py-2 rounded-lg hover:bg-white/10 font-medium text-white/80">Top Picks</button>
+          <button onclick="scrollToSection('roadmap'); toggleMobileMenu(false)"
+            class="text-left px-3 py-2 rounded-lg hover:bg-white/10 font-medium text-white/80">Roadmap</button>
+          <button onclick="scrollToSection('library'); toggleMobileMenu(false)"
+            class="text-left px-3 py-2 rounded-lg hover:bg-white/10 font-medium text-white/80">Library</button>
+          <button onclick="scrollToSection('youtube-section'); toggleMobileMenu(false)"
+            class="text-left px-3 py-2 rounded-lg hover:bg-white/10 font-medium text-white/80">YouTube</button>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-        const YouTubeIcon = () => (
-            React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "currentColor" },
-                React.createElement("path", { d: "M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" })
-            )
-        );
+  <header class="pt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/10 px-3 py-1.5 rounded-full text-sm text-white/80 mb-6">
+          <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+          Free training • Roadmap • Hands-on labs • Career-ready
+        </div>
 
-        const FacebookIcon = () => (
-            React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "currentColor" },
-                React.createElement("path", { d: "M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z" })
-            )
-        );
-        
-        const CommunityContact = () => (
-            React.createElement("div", { className: "text-center" },
-                React.createElement("h2", { className: "text-3xl font-bold font-montserrat text-primary border-b-2 border-primary pb-2 mb-6" }, "Connect with NetRoute Academy"),
-                React.createElement("p", { className: "text-lg text-gray-600 mb-8" }, "Join our community to stay updated and discuss networking topics!"),
-                React.createElement("div", { className: "flex flex-wrap justify-center gap-6 mb-12" },
-                    React.createElement("a", { href: "https://www.youtube.com/@NetRouteAcademy", target: "_blank", rel: "noopener noreferrer", className: "flex items-center gap-3 bg-youtube-red text-white font-bold py-3 px-6 rounded-md shadow-md hover:brightness-110 transition-all transform hover:scale-105" },
-                        React.createElement(YouTubeIcon, null), "YouTube Channel"),
-                    React.createElement("a", { href: "https://www.facebook.com/NetRouteAcademy/", target: "_blank", rel: "noopener noreferrer", className: "flex items-center gap-3 bg-facebook-blue text-white font-bold py-3 px-6 rounded-md shadow-md hover:brightness-110 transition-all transform hover:scale-105" },
-                        React.createElement(FacebookIcon, null), "Facebook Page")
-                ),
-                React.createElement("div", { className: "mt-12 border-t pt-8" },
-                    React.createElement("h2", { className: "text-3xl font-bold font-montserrat text-primary pb-2 mb-4" }, "Get in Touch"),
-                    React.createElement("p", { className: "text-lg text-gray-700" }, "For inquiries, collaborations, or support, feel free to reach out:"),
-                    React.createElement("p", { className: "text-lg text-gray-700 my-4" }, "Email: ",
-                        React.createElement("a", { href: "mailto:netroute@patronhub3.onmicrosoft.com", className: "text-primary hover:underline" }, "netroute@patronhub3.onmicrosoft.com")),
-                    React.createElement("p", { className: "text-lg text-gray-700" }, "We're here to help you navigate the complexities of IT networking!")
-                )
-            )
-        );
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+          Your Cybersecurity Career Starts Here.
+        </h1>
 
-        const Footer = () => (
-            React.createElement("footer", { className: "bg-background-dark text-text-dark text-center py-6 mt-10 shadow-inner" },
-                React.createElement("p", null, `© ${new Date().getFullYear()} NetRoute Academy. All rights reserved.`),
-                React.createElement("p", { className: "mt-1" }, "Keep learning, keep networking!")
-            )
-        );
-        
-        const FadeIn = ({ children }) => {
-            const [isVisible, setIsVisible] = useState(false);
-            const domRef = useRef(null);
-            useEffect(() => {
-                const observer = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            setIsVisible(true);
-                            if (domRef.current) {
-                                observer.unobserve(domRef.current);
-                            }
-                        }
-                    });
-                });
-                const currentRef = domRef.current;
-                if (currentRef) observer.observe(currentRef);
-                return () => {
-                    if (currentRef) observer.unobserve(currentRef);
-                };
-            }, []);
-            return React.createElement("div", {
-                ref: domRef,
-                className: `transition-opacity duration-1000 ease-out ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-5'}`
-            }, children);
-        };
+        <p class="text-lg sm:text-xl text-white/75 mt-6 leading-relaxed">
+          A world-class, entry-level cybersecurity education is attainable at little to no cost.
+          Follow this guide to the best free training, certifications, and hands-on labs to launch your career.
+        </p>
 
-        // --- MAIN APP COMPONENT ---
-        const App = () => {
-            const [activeTab, setActiveTab] = useState('Lab-Workbook');
-            const renderContent = () => {
-                switch (activeTab) {
-                    case 'Lab-Workbook':
-                        return React.createElement(FadeIn, null,
-                            React.createElement("h2", { className: "text-3xl font-bold font-montserrat text-primary border-b-2 border-primary pb-2 mb-6" }, "Networking Lab Workbook"),
-                            React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" },
-                                labWorkbookVideos.map(video => React.createElement(VideoCard, { key: video.id, ...video, buttonText: "Watch Video" }))
-                            )
-                        );
-                    case 'Routing-Switching':
-                        return React.createElement(FadeIn, null,
-                            React.createElement("h2", { className: "text-3xl font-bold font-montserrat text-primary border-b-2 border-primary pb-2 mb-6" }, "Routing & Switching Topics"),
-                            React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" },
-                                routingSwitchingVideos.map(video => React.createElement(VideoCard, { key: video.id, ...video, buttonText: "Watch Video" }))
-                            )
-                        );
-                    case 'YouTube-Shorts':
-                        return React.createElement(FadeIn, null,
-                            React.createElement("h2", { className: "text-3xl font-bold font-montserrat text-primary border-b-2 border-primary pb-2 mb-6" }, "YouTube Shorts"),
-                            React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" },
-                                networkingShorts.map(short => React.createElement(VideoCard, { key: short.id, ...short, buttonText: "Watch Short" }))
-                            )
-                        );
-                    case 'Community-Contact':
-                        return React.createElement(FadeIn, null, React.createElement(CommunityContact, null));
-                    default:
-                        return null;
-                }
-            };
-            return React.createElement("div", { className: "bg-background-light text-text-light font-sans min-h-screen flex flex-col" },
-                React.createElement(Header, null),
-                React.createElement(Tabs, { tabs: TABS, activeTab: activeTab, setActiveTab: setActiveTab }),
-                React.createElement("main", { className: "container mx-auto px-5 py-8 flex-grow" },
-                    React.createElement("div", { className: "bg-white p-6 md:p-8 rounded-lg shadow-md" }, renderContent())
-                ),
-                React.createElement(Footer, null)
-            );
-        };
+        <div class="mt-10 flex flex-col sm:flex-row gap-4">
+          <button onclick="scrollToSection('roadmap')"
+            class="bg-teal-500 hover:bg-teal-400 text-slate-950 font-extrabold py-3 px-8 rounded-xl transition shadow-lg shadow-teal-900/40 inline-flex items-center justify-center gap-2">
+            Start the Path <span class="opacity-80">→</span>
+          </button>
 
-        // --- RENDER ---
-        const rootElement = document.getElementById('root');
-        if (!rootElement) {
-            throw new Error("Could not find root element to mount to");
+          <button onclick="scrollToSection('library')"
+            class="bg-white/10 hover:bg-white/15 border border-white/10 text-white font-bold py-3 px-8 rounded-xl transition inline-flex items-center justify-center gap-2">
+            Browse Resources
+          </button>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-white/75">
+          <div class="glass rounded-xl p-4">
+            <div class="font-extrabold text-white">Structured Roadmap</div>
+            <div class="mt-1">No more guessing what to learn next.</div>
+          </div>
+          <div class="glass rounded-xl p-4">
+            <div class="font-extrabold text-white">Hands-on Practice</div>
+            <div class="mt-1">Labs + projects you can showcase.</div>
+          </div>
+          <div class="glass rounded-xl p-4">
+            <div class="font-extrabold text-white">Proof for Employers</div>
+            <div class="mt-1">Badges, certs, and vendor credibility.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="soft-divider max-w-6xl mx-auto"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-24">
+
+    <section id="top-picks" class="space-y-10">
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Where to Start? Top 3 Recommendations</h2>
+        <p class="text-white/70 mt-3 text-lg">
+          These programs offer the highest value, globally recognized credentials, and employer trust — completely free.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noreferrer" class="block group">
+          <div class="glass rounded-2xl overflow-hidden hover:shadow-2xl transition flex flex-col h-full hover:-translate-y-0.5">
+            <div class="h-1.5 bg-teal-400"></div>
+            <div class="p-7 flex-1 flex flex-col">
+              <div class="flex items-start justify-between gap-4">
+                <div class="text-4xl">🏅</div>
+                <div class="text-white/30 group-hover:text-teal-300 transition text-xl">↗</div>
+              </div>
+              <h3 class="text-xl font-extrabold mt-4 group-hover:text-teal-300 transition">ISC2 Certified in Cybersecurity</h3>
+              <p class="text-white/70 text-sm mt-2 flex-1">
+                The “Gold Standard” entry-level cert. Includes free official training and a free exam voucher.
+              </p>
+
+              <div class="mt-6 pt-5 border-t border-white/10 flex justify-between items-center">
+                <span class="text-xs font-extrabold bg-teal-400/15 text-teal-200 px-2.5 py-1 rounded-full border border-teal-400/20">
+                  Free Exam + Training
+                </span>
+                <span class="text-xs text-white/55">Self-paced</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.netacad.com/career-paths/cybersecurity" target="_blank" rel="noreferrer" class="block group">
+          <div class="glass rounded-2xl overflow-hidden hover:shadow-2xl transition flex flex-col h-full hover:-translate-y-0.5">
+            <div class="h-1.5 bg-sky-400"></div>
+            <div class="p-7 flex-1 flex flex-col">
+              <div class="flex items-start justify-between gap-4">
+                <div class="text-4xl">🌐</div>
+                <div class="text-white/30 group-hover:text-sky-300 transition text-xl">↗</div>
+              </div>
+              <h3 class="text-xl font-extrabold mt-4 group-hover:text-sky-300 transition">Cisco Jr. Cybersecurity Analyst</h3>
+              <p class="text-white/70 text-sm mt-2 flex-1">
+                A structured 120-hour career path from a networking giant. Deep foundational knowledge.
+              </p>
+
+              <div class="mt-6 pt-5 border-t border-white/10 flex justify-between items-center">
+                <span class="text-xs font-extrabold bg-sky-400/15 text-sky-200 px-2.5 py-1 rounded-full border border-sky-400/20">
+                  100% Free
+                </span>
+                <span class="text-xs text-white/55">~120 hours</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.cybrary.it/" target="_blank" rel="noreferrer" class="block group">
+          <div class="glass rounded-2xl overflow-hidden hover:shadow-2xl transition flex flex-col h-full hover:-translate-y-0.5">
+            <div class="h-1.5 bg-violet-400"></div>
+            <div class="p-7 flex-1 flex flex-col">
+              <div class="flex items-start justify-between gap-4">
+                <div class="text-4xl">📚</div>
+                <div class="text-white/30 group-hover:text-violet-300 transition text-xl">↗</div>
+              </div>
+              <h3 class="text-xl font-extrabold mt-4 group-hover:text-violet-300 transition">Cybrary</h3>
+              <p class="text-white/70 text-sm mt-2 flex-1">
+                Freemium platform with 50+ free courses, labs, and foundational career paths.
+              </p>
+
+              <div class="mt-6 pt-5 border-t border-white/10 flex justify-between items-center">
+                <span class="text-xs font-extrabold bg-violet-400/15 text-violet-200 px-2.5 py-1 rounded-full border border-violet-400/20">
+                  Free Courses & Labs
+                </span>
+                <span class="text-xs text-white/55">Self-paced</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <div class="soft-divider"></div>
+
+    <section id="roadmap" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+      <div class="space-y-6 lg:sticky lg:top-24">
+        <div class="glass p-8 rounded-2xl">
+          <h2 class="text-3xl font-extrabold tracking-tight">Your Learning Path</h2>
+          <p class="text-white/70 mt-4 text-lg">
+            Cybersecurity can be overwhelming. Follow this 3-step structure to go from beginner to job-ready.
+          </p>
+
+          <div id="roadmap-details" class="mt-6 bg-white/5 p-6 rounded-xl border border-white/10">
+            <h3 id="detail-title" class="text-xl font-extrabold text-teal-300 mb-2">Select a step...</h3>
+            <div id="detail-desc" class="text-white/70">Click on the steps to see details.</div>
+          </div>
+        </div>
+
+        <div class="glass p-6 rounded-2xl">
+          <div class="font-extrabold">Pro tip</div>
+          <p class="text-white/70 mt-2 text-sm">
+            Employers love proof. Save screenshots of labs, badges, and write 2–3 bullet reflections after each project.
+          </p>
+        </div>
+      </div>
+
+      <div class="relative pl-4">
+        <div class="timeline-item relative pb-12 pl-10 cursor-pointer group" onclick="updateRoadmap(0)">
+          <div class="timeline-connector"></div>
+          <div data-step="0"
+            class="step-dot absolute left-0 top-0 w-10 h-10 rounded-full flex items-center justify-center font-extrabold border-4 shadow-sm transition
+                   bg-teal-500 text-slate-950 border-teal-200/40">
+            1
+          </div>
+          <h3 class="text-xl font-extrabold text-white group-hover:text-teal-300 transition">Core Concepts (The “Why”)</h3>
+          <p class="text-white/60 text-sm mt-1">Start here. Learn the language of security.</p>
+        </div>
+
+        <div class="timeline-item relative pb-12 pl-10 cursor-pointer group" onclick="updateRoadmap(1)">
+          <div class="timeline-connector"></div>
+          <div data-step="1"
+            class="step-dot absolute left-0 top-0 w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center font-extrabold border-4 border-white/10 shadow-sm transition">
+            2
+          </div>
+          <h3 class="text-xl font-extrabold text-white group-hover:text-teal-300 transition">Hands-On Practice (The “How”)</h3>
+          <p class="text-white/60 text-sm mt-1">Stop reading — start building skills in labs.</p>
+        </div>
+
+        <div class="timeline-item relative pb-0 pl-10 cursor-pointer group" onclick="updateRoadmap(2)">
+          <div data-step="2"
+            class="step-dot absolute left-0 top-0 w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center font-extrabold border-4 border-white/10 shadow-sm transition">
+            3
+          </div>
+          <h3 class="text-xl font-extrabold text-white group-hover:text-teal-300 transition">Vendor Badges (The “Proof”)</h3>
+          <p class="text-white/60 text-sm mt-1">Show employers you know real enterprise tools.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="soft-divider"></div>
+
+    <section id="library" class="space-y-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Full Resource Library</h2>
+          <p class="text-white/70 mt-2">Filter by category or search for a tool/course.</p>
+        </div>
+
+        <div class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+          <div class="relative w-full sm:w-80">
+            <input id="resourceSearch" type="text" placeholder="Search resources..."
+              class="w-full glass rounded-xl px-4 py-2.5 pr-10 shadow-sm focus:border-teal-400 transition text-white placeholder:text-white/40"
+              aria-label="Search resources">
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40">⌕</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <button onclick="filterResources('all')" class="filter-btn active px-4 py-2 rounded-full text-sm font-extrabold transition bg-white text-slate-950">All</button>
+        <button onclick="filterResources('foundational')" class="filter-btn px-4 py-2 rounded-full text-sm font-extrabold transition bg-white/10 text-white/80 hover:bg-white/15">Foundational</button>
+        <button onclick="filterResources('hands-on')" class="filter-btn px-4 py-2 rounded-full text-sm font-extrabold transition bg-white/10 text-white/80 hover:bg-white/15">Hands-On</button>
+        <button onclick="filterResources('vendor')" class="filter-btn px-4 py-2 rounded-full text-sm font-extrabold transition bg-white/10 text-white/80 hover:bg-white/15">Vendor</button>
+      </div>
+
+      <div id="resource-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <section id="youtube-section" class="py-16 text-center border-t border-white/10">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="inline-flex items-center justify-center bg-red-600 text-white text-3xl w-14 h-14 rounded-2xl mb-6 shadow-lg shadow-red-900/40">▶</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Learn with Net Route Academy on YouTube</h2>
+      <p class="text-white/70 text-lg mt-4 max-w-2xl mx-auto leading-relaxed">
+        Prefer learning by watching? Our playlist walks you through key cybersecurity concepts, career advice, and tool demos.
+      </p>
+      <a href="https://www.youtube.com/watch?v=Ecoa8DEMVWM&list=PLYZd1M5uUIXHc0pSbHzW3WwagaSGPG-eJ" target="_blank" rel="noreferrer"
+        class="mt-8 inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-lg font-extrabold py-3 px-8 rounded-full transition transform hover:-translate-y-0.5 shadow-lg shadow-red-900/40">
+        Watch the Playlist <span class="opacity-90">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center text-sm text-white/50 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4">
+      <p>Based on the Net Route Academy Guide & Community Resources.</p>
+    </div>
+  </footer>
+
+  <script>
+    // -----------------------
+    // STATE
+    // -----------------------
+    const roadmapData = [
+      {
+        title: "Step 1: Core Concepts (The 'Why')",
+        desc: "Before you can hack, you need to know what you're hacking. Understanding networking and security fundamentals is non-negotiable.",
+        resources: [
+          "Professor Messer's Security+ (SY0-601) — Free Video Course",
+          "Cisco Skills for All: Intro to Cybersecurity",
+          "Cybrary: Foundational Career Path (Free tier)"
+        ],
+        action: "Watch the videos and take notes. Build vocabulary + mental models."
+      },
+      {
+        title: "Step 2: Hands-On Practice (The 'How')",
+        desc: "This is where you stop reading and start doing. Use safe, virtual environments to attack and defend machines.",
+        resources: [
+          "TryHackMe: Pre-Security Learning Path",
+          "TryHackMe: Web Fundamentals",
+          "freeCodeCamp: Information Security Certification (projects)"
+        ],
+        action: "Complete at least one full learning path and publish your progress."
+      },
+      {
+        title: "Step 3: Vendor Badges (The 'Proof')",
+        desc: "Show employers you’re familiar with the enterprise products and ecosystems they use every day.",
+        resources: [
+          "Fortinet NSE 1 & 2 (free training)",
+          "AWS Cloud Practitioner Essentials (free digital training)"
+        ],
+        action: "Add badges/certs to LinkedIn + include them on your resume."
+      }
+    ];
+
+    const resourceDB = [
+      { title: "Professor Messer Security+", category: "foundational", desc: "Comprehensive video training for CompTIA Security+.", badge: "Video Course", url: "https://www.professormesser.com/" },
+      { title: "Cisco Skills for All", category: "foundational", desc: "Official beginner courses from Cisco networking experts.", badge: "Certificate", url: "https://skillsforall.com/" },
+      { title: "Cybrary", category: "foundational", desc: "Freemium platform with 50+ free courses & labs.", badge: "Career Path", url: "https://www.cybrary.it/" },
+      { title: "TryHackMe", category: "hands-on", desc: "Gamified browser-based hacking labs.", badge: "Digital Badge", url: "https://tryhackme.com/" },
+      { title: "freeCodeCamp InfoSec", category: "hands-on", desc: "Project-based certification using Python / HelmetJS.", badge: "Certification", url: "https://www.freecodecamp.org/learn/information-security/" },
+      { title: "Fortinet NSE 1 & 2", category: "vendor", desc: "Intro to the threat landscape from a firewall giant.", badge: "Certificate", url: "https://training.fortinet.com/" },
+      { title: "AWS Cloud Practitioner", category: "vendor", desc: "Official free digital training for AWS cloud fundamentals.", badge: "Free Training", url: "https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/" },
+      { title: "PortSwigger Web Security", category: "hands-on", desc: "Web vulnerability training with free labs.", badge: "Labs", url: "https://portswigger.net/web-security" }
+    ];
+
+    let activeCategory = "all";
+    let activeSearch = "";
+
+    // -----------------------
+    // NAV (MOBILE)
+    // -----------------------
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    function toggleMobileMenu(force) {
+      const shouldOpen = typeof force === "boolean" ? force : mobileMenu.classList.contains("hidden");
+      mobileMenu.classList.toggle("hidden", !shouldOpen);
+      mobileMenuBtn.textContent = shouldOpen ? "✕" : "☰";
+    }
+
+    mobileMenuBtn.addEventListener("click", () => toggleMobileMenu());
+
+    // -----------------------
+    // ROADMAP
+    // -----------------------
+    function updateRoadmap(index) {
+      const data = roadmapData[index];
+      document.getElementById("detail-title").textContent = data.title;
+
+      const descEl = document.getElementById("detail-desc");
+      descEl.innerHTML = `
+        <p class="text-white/70 mb-4">${data.desc}</p>
+        <div class="bg-white/5 p-4 rounded-xl border border-white/10 mb-4">
+          <h4 class="font-extrabold text-teal-200 text-xs mb-2 tracking-wide">KEY RESOURCES</h4>
+          <ul class="list-disc list-inside text-sm text-white/70 space-y-1">
+            ${data.resources.map(r => `<li>${r}</li>`).join("")}
+          </ul>
+        </div>
+        <p class="text-sm font-extrabold text-teal-300">👉 ACTION: ${data.action}</p>
+      `;
+
+      document.querySelectorAll(".step-dot").forEach(dot => {
+        dot.classList.remove("bg-teal-500", "text-slate-950", "border-teal-200/40");
+        dot.classList.add("bg-white/10", "text-white", "border-white/10");
+      });
+
+      const activeDot = document.querySelector(`.step-dot[data-step="${index}"]`);
+      if (activeDot) {
+        activeDot.classList.remove("bg-white/10", "text-white", "border-white/10");
+        activeDot.classList.add("bg-teal-500", "text-slate-950", "border-teal-200/40");
+      }
+    }
+
+    // -----------------------
+    // RESOURCES
+    // -----------------------
+    function getCatStyles(category) {
+      if (category === "foundational") return "bg-sky-400/15 text-sky-200 border border-sky-400/20";
+      if (category === "hands-on") return "bg-teal-400/15 text-teal-200 border border-teal-400/20";
+      return "bg-violet-400/15 text-violet-200 border border-violet-400/20";
+    }
+
+    function setActiveFilterBtn(category) {
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        const btnLabel = btn.textContent.toLowerCase();
+        const active =
+          category === "all" ? btnLabel === "all" : btnLabel.includes(category);
+
+        if (active) {
+          btn.classList.add("bg-white", "text-slate-950");
+          btn.classList.remove("bg-white/10", "text-white/80");
+        } else {
+          btn.classList.remove("bg-white", "text-slate-950");
+          btn.classList.add("bg-white/10", "text-white/80");
         }
-        const root = ReactDOM.createRoot(rootElement);
-        root.render(React.createElement(React.StrictMode, null, React.createElement(App, null)));
-    </script>
+      });
+    }
+
+    function renderResources() {
+      const grid = document.getElementById("resource-grid");
+      grid.innerHTML = "";
+
+      const normalizedSearch = activeSearch.trim().toLowerCase();
+
+      const filtered = resourceDB.filter(r => {
+        const categoryOk = activeCategory === "all" ? true : r.category === activeCategory;
+        const searchOk = normalizedSearch
+          ? (r.title.toLowerCase().includes(normalizedSearch) || r.desc.toLowerCase().includes(normalizedSearch))
+          : true;
+        return categoryOk && searchOk;
+      });
+
+      const frag = document.createDocumentFragment();
+
+      filtered.forEach(r => {
+        const card = document.createElement("a");
+        card.href = r.url;
+        card.target = "_blank";
+        card.rel = "noreferrer";
+        card.className = "block group";
+
+        card.innerHTML = `
+          <div class="glass p-6 rounded-2xl transition h-full flex flex-col hover:-translate-y-0.5 hover:shadow-2xl">
+            <div class="flex items-start justify-between gap-4">
+              <h4 class="font-extrabold text-lg text-white group-hover:text-teal-300 transition">${r.title}</h4>
+              <div class="text-white/30 group-hover:text-teal-300 transition text-xl">↗</div>
+            </div>
+
+            <div class="mt-3">
+              <span class="text-[0.65rem] px-2.5 py-1 rounded-full uppercase tracking-wide font-extrabold ${getCatStyles(r.category)}">
+                ${r.category}
+              </span>
+            </div>
+
+            <p class="text-white/70 text-sm mt-3 flex-1 leading-relaxed">${r.desc}</p>
+
+            <div class="text-xs text-white/55 flex items-center gap-2 mt-5 pt-5 border-t border-white/10">
+              <span>🏆</span>
+              <span class="font-semibold">${r.badge}</span>
+            </div>
+          </div>
+        `;
+
+        frag.appendChild(card);
+      });
+
+      grid.appendChild(frag);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full glass rounded-2xl p-10 text-center">
+            <div class="text-3xl mb-3">🔎</div>
+            <div class="font-extrabold text-white text-lg">No matches found</div>
+            <div class="text-white/70 mt-1 text-sm">Try a different keyword or switch category.</div>
+          </div>
+        `;
+      }
+    }
+
+    function filterResources(category) {
+      activeCategory = category;
+      setActiveFilterBtn(category);
+      renderResources();
+    }
+
+    // -----------------------
+    // SCROLL
+    // -----------------------
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // -----------------------
+    // INIT
+    // -----------------------
+    document.addEventListener("DOMContentLoaded", () => {
+      updateRoadmap(0);
+      filterResources("all");
+
+      document.getElementById("resourceSearch").addEventListener("input", (e) => {
+        activeSearch = e.target.value;
+        renderResources();
+      });
+    });
+  </script>
+
 </body>
 </html>
-
